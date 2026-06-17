@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Jar of Little Moments</title>
+    <style>
+        /* General Reset & Background Pattern */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Georgia', Cambria, "Times New Roman", Times, serif;
+            background-color: #F5DEB3;
+            /* Romantic subtle heart-like polka dot pattern using pure CSS */
+            background-image: radial-gradient(#FFC0CB 15%, transparent 16%),
+                              radial-gradient(#FFC0CB 15%, transparent 16%);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px;
+            color: #4A3E3D;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            overflow-x: hidden;
+            padding: 20px;
+        }
+
+        /* Container & Typography */
+        .wrapper {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            color: #8D5B4C;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+            margin-bottom: 8px;
+            font-weight: normal;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            color: #7D6B69;
+            margin-bottom: 25px;
+            font-style: italic;
+            max-width: 500px;
+            line-height: 1.4;
+            transition: all 0.5s ease;
+        }
+
+        /* Glass Jar Component */
+        .jar-container {
+            position: relative;
+            width: 280px;
+            height: 380px;
+            margin: 20px auto;
+            cursor: pointer;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .jar-container:hover {
+            transform: scale(1.03) rotate(1deg);
+        }
+
+        .jar-container:active {
+            transform: scale(0.98);
+        }
+
+        /* Wooden Lid */
+        .jar-lid {
+            width: 140px;
+            height: 32px;
+            background: linear-gradient(to bottom, #A1887F, #6D4C41);
+            border-radius: 8px 8px 4px 4px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 4;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .jar-neck {
+            width: 120px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            border-top: none;
+            border-bottom: none;
+            margin: -4px auto 0;
+            position: relative;
+            z-index: 3;
+        }
+
+        /* Jar Glass Body */
+        .jar-body {
+            width: 100%;
+            height: 330px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            border: 3px solid rgba(255, 255, 255, 0.7);
+            border-radius: 40px 40px 80px 80px;
+            position: relative;
+            z-index: 2;
+            box-shadow: inset 0 20px 30px rgba(255, 255, 255, 0.4),
+                        inset -15px 0 20px rgba(255, 255, 255, 0.15),
+                        inset 15px 0 20px rgba(255, 255, 255, 0.15),
+                        0 15px 35px rgba(141, 91, 76, 0.15);
+            overflow: hidden;
+        }
+
+        /* Glass Reflection Shine */
+        .jar-shine {
+            position: absolute;
+            top: 10%;
+            left: 8%;
+            width: 15px;
+            height: 70%;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0));
+            border-radius: 30px;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        /* Heart Label tied to the Jar */
+        .jar-label {
+            position: absolute;
+            top: 80px;
+            right: -25px;
+            width: 75px;
+            height: 75px;
+            background-color: #D7CCC8;
+            border: 2px dashed #8D6E63;
+            transform: rotate(15deg);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 2px 4px 10px rgba(0,0,0,0.1);
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .jar-label::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: 15px;
+            width: 2px;
+            height: 25px;
+            background-color: #8D6E63;
+            transform: rotate(-15deg);
+        }
+
+        .jar-label-text {
+            font-size: 0.75rem;
+            color: #5D4037;
+            font-weight: bold;
+            line-height: 1.2;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Miniature Floating Envelopes inside Jar */
+        .mini-envelope {
+            position: absolute;
+            width: 48px;
+            height: 32px;
+            border-radius: 3px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 1;
+            cursor: pointer;
+        }
+
+        /* Tiny details to make them look like envelopes */
+        .mini-envelope::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(135deg, transparent 46%, rgba(0,0,0,0.06) 50%, transparent 54%),
+                              linear-gradient(225deg, transparent 46%, rgba(0,0,0,0.06) 50%, transparent 54%);
+            border-radius: 3px;
+        }
+
+        /* Layered and distributed positions for 16 tiny envelopes inside the bottom of the jar */
+        #mini-0 { bottom: 25px; left: 35px; transform: rotate(-12deg); background-color: #F65969; }
+        #mini-1 { bottom: 20px; left: 105px; transform: rotate(8deg); background-color: #E1BEE7; }
+        #mini-2 { bottom: 28px; left: 175px; transform: rotate(-22deg); background-color: #BD6AFC; }
+        #mini-3 { bottom: 65px; left: 60px; transform: rotate(18deg); background-color: #FFF9C4; }
+        #mini-4 { bottom: 58px; left: 130px; transform: rotate(-5deg); background-color: #B3E5FC; }
+        #mini-5 { bottom: 105px; left: 95px; transform: rotate(-15deg); background-color: #B98A43; }
+        #mini-6 { bottom: 115px; left: 30px; transform: rotate(25deg); background-color: #E5CDFF; }
+        #mini-7 { bottom: 98px; left: 165px; transform: rotate(-10deg); background-color: #C8E6C9; }
+        #mini-8 { bottom: 145px; left: 75px; transform: rotate(-18deg); background-color: #FFE0B2; }
+        #mini-9 { bottom: 138px; left: 145px; transform: rotate(12deg); background-color: #D7BDE2; }
+        #mini-10 { bottom: 175px; left: 50px; transform: rotate(-8deg); background-color: #A9CCE3; }
+        #mini-11 { bottom: 180px; left: 120px; transform: rotate(15deg); background-color: #B7F0E5; }
+        #mini-12 { bottom: 215px; left: 85px; transform: rotate(-20deg); background-color: #F5CBA7; }
+        #mini-13 { bottom: 210px; left: 155px; transform: rotate(8deg); background-color: #F96574; }
+        #mini-14 { bottom: 250px; left: 45px; transform: rotate(-5deg); background-color: #BD6AFC; }
+        #mini-15 { bottom: 245px; left: 115px; transform: rotate(18deg); background-color: #FFF9C4; }
+
+        /* Full Screen Overlay (Modal) */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(42, 35, 35, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        /* Large Interactive 3D Envelope */
+        .envelope-container {
+            position: relative;
+            width: 320px;
+            height: 220px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .envelope {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #DEB887; /* Romantic Blue card stock */
+            border-radius: 0px 0px 12px 12px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+            transform-style: preserve-3d;
+            transform: transform 0.5s;
+        }
+
+        /* Top Flap of Envelope */
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 160px solid transparent;
+            border-right: 160px solid transparent;
+            border-top: 110px solid #AEEFF9; /* Darker accent pink */
+            transform-origin: top;
+            transition: transform 0.5s ease-in-out, z-index 0.2s;
+            z-index: 3;
+        }
+
+        /* Side & Bottom triangular folds (simulated using border overlapping) */
+        .envelope-pocket {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 160px solid #C0F1F9;
+            border-right: 160px solid #C0F1F9;
+            border-bottom: 110px solid #AEEFF9;
+            border-top: 110px solid transparent;
+            border-radius: 0px 0px 12px 12px;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* Inside Lining Shadow */
+        .envelope-lining {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 0px 0px 12px 12px;
+            z-index: 1;
+        }
+
+        /* Polaroid Photo (slides out of envelope) */
+        .polaroid {
+            position: absolute;
+            bottom: 10px;
+            left: 20px;
+            width: 280px;
+            background: #FFFFFF;
+            padding: 12px 12px 35px 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            transform: translateY(0) rotate(0deg) scale(0.95);
+            transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .polaroid-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border: 1px solid #E0E0E0;
+            background-color: #EEEEEE;
+        }
+
+        .polaroid-caption {
+            font-family: 'Georgia', serif;
+            font-size: 1rem;
+            color: #5D4037;
+            text-align: center;
+            margin-top: 15px;
+            line-height: 1.4;
+            font-style: italic;
+        }
+
+        /* 3D Envelope Opening Animations */
+        .envelope-container.open .envelope-flap {
+            transform: rotateX(180deg);
+            z-index: 0; /* Fall behind the polaroid once opened */
+        }
+
+        .envelope-container.open .polaroid {
+            transform: translateY(-220px) rotate(-3deg) scale(1.05);
+            z-index: 5; /* Slide out on top of everything */
+        }
+
+        /* Hint instruction at bottom of overlay */
+        .overlay-hint {
+            position: absolute;
+            bottom: 40px;
+            color: #FFF;
+            font-size: 0.95rem;
+            font-style: italic;
+            opacity: 0.8;
+            pointer-events: none;
+        }
+
+        /* Bottom helper instructions on main page */
+        .hint-text {
+            font-size: 0.9rem;
+            color: #8D7B79;
+            margin-top: 10px;
+            opacity: 0.8;
+        }
+
+        /* Footer love mark */
+        footer {
+            font-size: 0.85rem;
+            color: #A39290;
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+
+        footer span {
+            color: #E91E63;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="wrapper">
+        <header>
+            <h1 id="title-text">Our Jar of Little Moments</h1>
+            <p id="sub-text">This magical jar holds some of my absolute favorite memories of us. Tap it to pull out a little moment from our story.</p>
+        </header>
+
+        <!-- The Interactive Glass Jar -->
+        <div class="jar-container" onclick="pullMemory()">
+            <div class="jar-lid"></div>
+            <div class="jar-neck"></div>
+            <div class="jar-body" id="jar-body">
+                <div class="jar-shine"></div>
+                <!-- 16 Mini Colored Envelopes Inside Jar -->
+                <div class="mini-envelope" id="mini-0"></div>
+                <div class="mini-envelope" id="mini-1"></div>
+                <div class="mini-envelope" id="mini-2"></div>
+                <div class="mini-envelope" id="mini-3"></div>
+                <div class="mini-envelope" id="mini-4"></div>
+                <div class="mini-envelope" id="mini-5"></div>
+                <div class="mini-envelope" id="mini-6"></div>
+                <div class="mini-envelope" id="mini-7"></div>
+                <div class="mini-envelope" id="mini-8"></div>
+                <div class="mini-envelope" id="mini-9"></div>
+                <div class="mini-envelope" id="mini-10"></div>
+                <div class="mini-envelope" id="mini-11"></div>
+                <div class="mini-envelope" id="mini-12"></div>
+                <div class="mini-envelope" id="mini-13"></div>
+                <div class="mini-envelope" id="mini-14"></div>
+                <div class="mini-envelope" id="mini-15"></div>
+            </div>
+            <!-- String-tied tag decoration -->
+            <div class="jar-label">
+                <span class="jar-label-text">With<br>Love ♥</span>
+            </div>
+        </div>
+
+        <p class="hint-text" id="hint-text">Click the glass jar to reveal a memory</p>
+    </div>
+
+    <!-- Full Screen Overlay for Envelope Visual -->
+    <div class="overlay" id="overlay" onclick="closeModal(event)">
+        <div class="envelope-container" id="envelope-container" onclick="openEnvelope(event)">
+            <!-- Front layer containing the polaroid that slides out -->
+            <div class="polaroid">
+                <img id="polaroid-photo" class="polaroid-img" src="" alt="Sweet Memory">
+                <div id="polaroid-text" class="polaroid-caption"></div>
+            </div>
+            <!-- Base envelope body & folds -->
+            <div class="envelope">
+                <div class="envelope-flap"></div>
+                <div class="envelope-pocket"></div>
+                <div class="envelope-lining"></div>
+            </div>
+        </div>
+        <div class="overlay-hint">Tap the envelope to open it • Tap outside to close</div>
+    </div>
+
+    <footer>
+        For My most beloved sweet beautiful Doe <span>(づ￣ 3￣)づ💜💙</span>
+    </footer>
+
+    <!-- Invisible Audio Element -->
+    <audio id="bg-music" src="keshi - Soft Spot.mp3" loop></audio>
+
+    <script>
+        // Track whether music has started playing to avoid overlapping triggers
+        let musicStarted = false;
+
+        // Memory bank (16 unique curated placeholder Unsplash image URLs + customized sweet descriptions)
+        const memoryPool = [
+            {
+                photo: "Image1.jpg",
+                caption: "The Smile and love you give me in this moment love is naa gyapon hangtud karon.Ur so lovely gyud ani adlawa hehehe, Nag kiss pata ani while nag sapatos nya daghan ug tao sa atong likod hehehe."
+            },
+            {
+                photo: "Image2.jpg",
+                caption: "We exchange tattos you write mine \"bayot\" and akong ge sulat sa imo \"I love you\"."
+            },
+            {
+                photo: "Image3.jpg",
+                caption: "Bugat and bow and hapit paka maka murder ug stranger HAHAHAHA."
+            },
+            {
+                photo: "Image4.jpg",
+                caption: "Lapu-lapu trip and nag pa badlong ko ani and even so sweet gyapon ka HUHUHUh, deym I'am the worse huhuhu."
+            },
+            {
+                photo: "Image5.jpg",
+                caption: "You all most kill me with ur loveeeeeee💜."
+            },
+            {
+                photo: "Image6.jpg",
+                caption: "You have me stunned sa imong beauty 🤧."
+            },
+            {
+                photo: "Image7.jpg",
+                caption: "Atong ika third time eat sa remen sage and nag lakaw us going penguine cafeeee anddd that datw was the best so far nga atong na buhat, Aweeee🤭."
+            },
+            {
+                photo: "Image8.jpg",
+                caption: "Mirror pic para myday hehehehehe, and we look very lovely couple."
+            },
+            {
+                photo: "Image9.jpg",
+                caption: "10000 roses and there you go. You stand out among theme."
+            },
+            {
+                photo: "Image10.png",
+                caption: "Nag graduate ka madammmm and I ammm sooo proude sa imoo likee Wowwwwwww."
+            },
+            {
+                photo: "Image12.jpg",
+                caption: "Ge dream raman koni ba but guess what na tinood, and deym you look hooot that day and I wass so super shy cuz ako marag ungoy ikaw kay queen kaayo sa imong outfit guguguguuhuh."
+            },
+            {
+                photo: "Image13.jpg",
+                caption: "Pic with titaaaaaa, mara na gyud sd kog anak ni tita ani hahaha."
+            },
+            {
+                photo: "Image14.jfif",
+                caption: "Ambot unsay ge turo2x nmo ani madam hahaha, ge gutom naming tita ani nya ikaw nag turo2x pa hahaha."
+            },
+            {
+                photo: "Image15.jpg",
+                caption: "Aweeeeeee, tita imong anak oh naking holding hands nya sweet kaayooo🤭."
+            },
+            {
+                photo: "Image16.jpg",
+                caption: "We get merriad likeeeee wow na una pa ang honeymoon kay sa kasal hahahaha."
+            },
+            {
+                photo: "Image17.jpg",
+                caption: "Wala, cute lang ka ari hehehehehe."
+            }
+        ];
+
+        // Track unread index values for 16 envelopes
+        let unreadIndices = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+
+        // Handles picking a random index without repetition
+        function pullMemory() {
+            if (unreadIndices.length === 0) {
+                return; // Empty state already reached
+            }
+
+            // Start playing the music on the first click interaction
+            if (!musicStarted) {
+                const music = document.getElementById('bg-music');
+                music.play().catch(error => {
+                    console.log("Audio play blocked by browser policies. It will try again on the next interaction.", error);
+                });
+                musicStarted = true;
+            }
+
+            // Pick a random index from the pool of remaining unread ones
+            const randomIndexInArray = Math.floor(Math.random() * unreadIndices.length);
+            const chosenMemoryIndex = unreadIndices[randomIndexInArray];
+
+            // Fade out the corresponding mini envelope in the jar
+            const miniEnvelope = document.getElementById(`mini-${chosenMemoryIndex}`);
+            if (miniEnvelope) {
+                miniEnvelope.style.opacity = '0';
+                miniEnvelope.style.transform = 'translateY(50px) scale(0.3) rotate(45deg)';
+                miniEnvelope.style.pointerEvents = 'none';
+            }
+
+            // Remove this index from our active pool
+            unreadIndices.splice(randomIndexInArray, 1);
+
+            // Populate the modal photo & text
+            document.getElementById('polaroid-photo').src = memoryPool[chosenMemoryIndex].photo;
+            document.getElementById('polaroid-text').innerText = memoryPool[chosenMemoryIndex].caption;
+
+            // Trigger the overlay display
+            const overlay = document.getElementById('overlay');
+            overlay.classList.add('active');
+
+            // Check if we just emptied the jar
+            if (unreadIndices.length === 0) {
+                triggerEmptyState();
+            }
+        }
+
+        // Activates envelope CSS 3D opening animation
+        function openEnvelope(event) {
+            event.stopPropagation(); // Avoid bubbling up to the modal's overlay close trigger
+            const container = document.getElementById('envelope-container');
+            container.classList.add('open');
+        }
+
+        // Closes the modal/overlay and resets envelope animation states
+        function closeModal(event) {
+            const overlay = document.getElementById('overlay');
+            const container = document.getElementById('envelope-container');
+            
+            overlay.classList.remove('active');
+            
+            // Wait briefly for transition to hide before resetting rotation / slide styles
+            setTimeout(() => {
+                container.classList.remove('open');
+            }, 400);
+        }
+
+        // Transitions the UI to the empty state when all 16 moments are revealed
+        function triggerEmptyState() {
+            setTimeout(() => {
+                document.getElementById('title-text').innerText = "Our Jar of Moments";
+                document.getElementById('sub-text').innerText = "The jar is currently empty, but our beautiful story continues to unfold. There are infinitely more sweet moments waiting for us in the future. I love you! ♥";
+                document.getElementById('hint-text').innerText = "All moments opened! You've successfully emptied the jar of love.";
+            }, 800);
+        }
+    </script>
+</body>
+</html>
